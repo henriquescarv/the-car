@@ -19,10 +19,13 @@ app.use('/person', personRoutes)
 const carRoutes = require('./routes/carRoutes')
 app.use('/car', carRoutes)
 
+const reserveRoutes = require('./routes/reserveRoutes')
+app.use('/reserve', reserveRoutes)
+
 //rota inicial / endpoint
 app.get('/', (req, res) => {
     //mostrar requisição
-    res.json({message: 'Hello, world!'})      //a resposta para essa rota vai ser um json
+    res.json({message: 'Hello, world!'}) 
 })
 
 // entregar uma porta para acessar
