@@ -22,11 +22,13 @@ app.use('/car', carRoutes)
 const localizationRoutes = require('./routes/localizationRoutes')
 app.use('/localization', localizationRoutes)
 
+const reserveRoutes = require('./routes/reserveRoutes')
+app.use('/reserve', reserveRoutes)
 
 //rota inicial / endpoint
 app.get('/', (req, res) => {
     //mostrar requisição
-    res.json({message: 'Hello, world!'})      //a resposta para essa rota vai ser um json
+    res.json({message: 'Hello, world!'}) 
 })
 
 // entregar uma porta para acessar
