@@ -1,6 +1,6 @@
-const Reserve = require('../models/Reserve')
-const router = require('express').Router()
+const Reserve = require("../models/Reserve");
+const router = require("express").Router();
 
 //metodos
 
-module.exports = router
+module.exports = router;

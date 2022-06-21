@@ -11,7 +11,7 @@ const Localization = new Schema({
     required: [true, "Longitude obrigatória"],
   },
   carro: {
-    type:  mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "Car",
     required: [true, "Carro é obrigatório"],
   },
