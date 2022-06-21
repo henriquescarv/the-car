@@ -19,6 +19,10 @@ app.use('/person', personRoutes)
 const carRoutes = require('./routes/carRoutes')
 app.use('/car', carRoutes)
 
+const localizationRoutes = require('./routes/localizationRoutes')
+app.use('/localization', localizationRoutes)
+
+
 //rota inicial / endpoint
 app.get('/', (req, res) => {
     //mostrar requisição
