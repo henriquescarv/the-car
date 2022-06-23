@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const Car = new Schema({
-  // ou ('Car', {
   placa: {
     type: String,
     required: [true, "Placa obrigatório"],
+    unique: true,
   },
   ano: {
     type: Number,

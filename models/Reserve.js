@@ -2,9 +2,17 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const Reserve = new Schema({
-  person_id: Schema.Types.ObjectId,
-  car_id: Schema.Types.ObjectId,
-  period: Number,
+  person_id: {
+    type: Schema.Types.ObjectId,
+    ref: "Person",
+    required: [true, "Pessoa é obrigatório"],
+  },
+  car_id: {
+    type: Schema.Types.ObjectId,
+    ref: "Car",
+    required: [true, "Carro é obrigatório"],
+  },
+  period: { type: Number, required: [true, "Período é obrigatório"] },
 });
 
 module.exports = mongoose.model("Reserve", Reserve);
