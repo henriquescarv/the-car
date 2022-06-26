@@ -25,6 +25,9 @@ app.use("/localization", localizationRoutes);
 const reserveRoutes = require("./routes/reserveRoutes");
 app.use("/reserve", reserveRoutes);
 
+const lockRoutes = require("./routes/lockRoutes");
+app.use("/lock", lockRoutes);
+
 //rota inicial / endpoint
 app.get("/", (req, res) => {
   //mostrar requisição
