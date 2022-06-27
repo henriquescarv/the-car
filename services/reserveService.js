@@ -2,7 +2,23 @@ const Reserve = require("../models/Reserve");
 
 async function createReserve({ rsv }) {
   try {
-    if (rsv.period < 2 || rsv.period > 6) return [400, { message: "Período inválido!" }];
+    let initPeriod = new Date(rsv.initPeriod);
+    let endPeriod = new Date(rsv.endPeriod);
+
+    let diferenceHours = (endPeriod - initPeriod) / 3600000;
+    if (diferenceHours < 2 || diferenceHours > 6) {
+      return [400, { message: "Período de tempo não permetido!" }];
+    }
+
+    let allReserveCar = await Reserve.find({ car_id: rsv.car_id });
+    for (let reserve of allReserveCar) {
+      let rsvInitDate = new Date(reserve.initPeriod);
+      let rsvEndDate = new Date(reserve.endPeriod);
+      if (rsvInitDate <= initPeriod && rsvEndDate >= initPeriod) {
+        return [400, { message: "Já há uma reserva com esse carro nesse período!" }];
+      }
+    }
+
     await Reserve.create(rsv);
     return [201, { message: "Reserva cadastrada no sistema com sucesso!" }];
   } catch (error) {
@@ -23,6 +39,7 @@ async function getReserveById({ id }) {
   try {
     const result = await Reserve.findById(id);
     if (result === null) return [404, { message: "Nenhuma reserva encontrada por esse Id!" }];
+    console.log("res", new Date(result.initPeriod));
     return [200, result];
   } catch (error) {
     return [500, { error: error.message }];
