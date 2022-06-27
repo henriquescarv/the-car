@@ -6,6 +6,7 @@ const {
   getReserveByCarId,
   updateReserveById,
   deleteReserveById,
+  getVerifyReserveActive,
 } = require("../services/reserveService");
 
 const router = require("express").Router();
@@ -34,6 +35,13 @@ router.get("/:id", async (req, res) => {
 router.get("/person/:id", async (req, res) => {
   const personId = req.params.id;
   const result = await getReserveByPersonId({ personId });
+  res.status(result[0]).json(result[1]);
+});
+
+// Verificar se a reserva da pessoa esta ativada no momento
+router.get("/:id/active", async (req, res) => {
+  const id = req.params.id;
+  const result = await getVerifyReserveActive({ id });
   res.status(result[0]).json(result[1]);
 });
 

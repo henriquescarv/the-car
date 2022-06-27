@@ -57,6 +57,26 @@ async function getReserveByPersonId({ personId }) {
   }
 }
 
+async function getVerifyReserveActive({ id }) {
+  try {
+    const result = await Reserve.findById(id);
+    if (result.length === 0)
+      return [404, { message: "Nenhuma reserva encontrada para essa pessoa!" }];
+    const dateNow = new Date();
+
+    let rsvInitDate = new Date(result.initPeriod);
+    let rsvEndDate = new Date(result.endPeriod);
+
+    if (rsvInitDate <= dateNow && rsvEndDate >= dateNow) {
+      return [200, { message: "Reserva está ativada nesse momento." }];
+    }
+
+    return [204, ""];
+  } catch (error) {
+    return [500, { error: error.message }];
+  }
+}
+
 async function getReserveByCarId({ carId }) {
   try {
     const result = await Reserve.find({ car_id: carId });
@@ -99,6 +119,7 @@ var exports = {
   getReserveByCarId,
   updateReserveById,
   deleteReserveById,
+  getVerifyReserveActive,
 };
 
 module.exports = exports;

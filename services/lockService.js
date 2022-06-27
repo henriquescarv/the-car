@@ -1,32 +1,52 @@
 const Lock = require("../models/Lock");
+const axios = require("axios").default;
 
 async function createLock({ lock }) {
-    try {
-      await Lock.create(lock);
-      return [201, { message: "Carro travado!." }];
-    } catch (error) {
-      return [500, { error: error.message }];
-    }
+  try {
+    await Lock.create(lock);
+    return [201, { message: "Carro travado!." }];
+  } catch (error) {
+    return [500, { error: error.message }];
   }
+}
 
 async function getAllLocks(res) {
   try {
-    const Lock = await Lock.find();
-    return [200, Lock];
+    const lock = await Lock.find();
+    return [200, lock];
   } catch (error) {
     return [500, { error: error.message }];
   }
 }
 
 async function getLockById({ id }) {
-    try {
-      const Lock = await Lock.findById(id);
-      if (Lock === null) return [404, { message: "Nenhuma trava com esse ID!" }];
-      return [200, Lock];
-    } catch (error) {
-      return [500, { error: error.message }];
-    }
+  try {
+    const lock = await Lock.findById(id);
+    if (lock === null) return [404, { message: "Nenhuma trava com esse ID!" }];
+    return [200, lock];
+  } catch (error) {
+    return [500, { error: error.message }];
   }
+}
+
+async function unlockByReserveId({ id, reserveId }) {
+  try {
+    reserveActive = await axios.get("http://localhost:3000/reserve/" + reserveId + "/active");
+    console.log(reserveActive);
+
+    if (reserveActive.status === 200) {
+      const result = await Lock.updateOne({ reserva_id: reserveId }, { trava: false });
+      if (result.matchedCount === 0) {
+        return [422, { message: "Nenhuma trava encontrada com esse ID!" }];
+      }
+      return [200, { message: "Trava atualizada!" }];
+    } else {
+      return [400, { message: "Essa reserva não está ativa no momento." }];
+    }
+  } catch (error) {
+    return [500, { error: error.message }];
+  }
+}
 
 async function updateLockById({ id, newLock }) {
   try {
@@ -39,17 +59,17 @@ async function updateLockById({ id, newLock }) {
     return [500, { error: error.message }];
   }
 }
-  
+
 async function deleteLockById({ id }) {
-    const Lock = await Lock.findOne({ id });
-    if (!Lock) return [422, { message: "Nenhuma trava encontrada com esse ID!" }];
-    try {
-      await Lock.deleteOne({ id });
-      return [200, { message: "Trava excluida do sistema!" }];
-    } catch (error) {
-      return [500, { error: error.message }];
-    }
+  const lock = await Lock.findOne({ id });
+  if (!lock) return [422, { message: "Nenhuma trava encontrada com esse ID!" }];
+  try {
+    await lock.deleteOne({ id });
+    return [200, { message: "Trava excluida do sistema!" }];
+  } catch (error) {
+    return [500, { error: error.message }];
   }
+}
 
 var exports = {
   createLock,
@@ -58,7 +78,7 @@ var exports = {
   getLockById,
   updateLockById,
   deleteLockById,
+  unlockByReserveId,
 };
 
 module.exports = exports;
-  
