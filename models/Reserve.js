@@ -12,7 +12,15 @@ const Reserve = new Schema({
     ref: "Car",
     required: [true, "Carro é obrigatório"],
   },
-  period: { type: Number, required: [true, "Período é obrigatório"] },
+  // period: { type: Number, required: [true, "Período é obrigatório"] },
+  initPeriod: {
+    type: Date,
+    required: [true, "Período inicial é obrigatório"],
+  },
+  endPeriod: {
+    type: Date,
+    required: [true, "Período final é obrigatório"],
+  },
 });
 
 module.exports = mongoose.model("Reserve", Reserve);
