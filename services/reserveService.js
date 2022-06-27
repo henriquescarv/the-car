@@ -22,9 +22,10 @@ async function createReserve({ rsv }) {
 
     let reserveCreate = await Reserve.create(rsv);
     let cliente = await axios.get("http://localhost:3000/person/" + rsv.person_id);
+    let car = await axios.get("http://localhost:3000/car/" + rsv.car_id);
 
     let payment = await axios.post("http://localhost:3000/payment/", {
-      price: rsv.price,
+      price: car.data.aluguel * diferenceHours,
       credit_card: cliente.data.cartao,
       reserva_id: reserveCreate.id,
     });
