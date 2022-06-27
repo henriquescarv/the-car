@@ -1,3 +1,4 @@
+const axios = require("axios").default;
 const Reserve = require("../models/Reserve");
 
 async function createReserve({ rsv }) {
@@ -19,8 +20,16 @@ async function createReserve({ rsv }) {
       }
     }
 
-    await Reserve.create(rsv);
-    return [201, { message: "Reserva cadastrada no sistema com sucesso!" }];
+    let reserveCreate = await Reserve.create(rsv);
+    let cliente = await axios.get("http://localhost:3000/person/" + rsv.person_id);
+
+    let payment = await axios.post("http://localhost:3000/payment/", {
+      price: rsv.price,
+      credit_card: cliente.data.cartao,
+      reserva_id: reserveCreate.id,
+    });
+
+    return [201, { message: "Reserva e pagamento cadastrados no sistema com sucesso!" }];
   } catch (error) {
     return [500, { error: error.message }];
   }

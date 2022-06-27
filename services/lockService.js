@@ -29,10 +29,9 @@ async function getLockById({ id }) {
   }
 }
 
-async function unlockByReserveId({ id, reserveId }) {
+async function unlockByReserveId({ reserveId }) {
   try {
     reserveActive = await axios.get("http://localhost:3000/reserve/" + reserveId + "/active");
-    console.log(reserveActive);
 
     if (reserveActive.status === 200) {
       const result = await Lock.updateOne({ reserva_id: reserveId }, { trava: false });

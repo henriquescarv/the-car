@@ -8,7 +8,7 @@ const Payment = new Schema({
   },
 
   credit_card: {
-    type: Number,
+    type: String,
     required: [true, "Cartão é obrigatório."],
   },
 

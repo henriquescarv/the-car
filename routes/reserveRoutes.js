@@ -13,7 +13,7 @@ const router = require("express").Router();
 
 // Criar reserva
 router.post("/", async (req, res) => {
-  const rsv = ({ person_id, car_id, period } = req.body);
+  const rsv = ({ person_id, car_id, period, price } = req.body);
   const result = await createReserve({ rsv });
   res.status(result[0]).json(result[1]);
 });
