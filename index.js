@@ -28,6 +28,9 @@ app.use("/reserve", reserveRoutes);
 const lockRoutes = require("./routes/lockRoutes");
 app.use("/lock", lockRoutes);
 
+const paymentRoutes = require("./routes/paymentRoutes");
+app.use("/payment", paymentRoutes);
+
 //rota inicial / endpoint
 app.get("/", (req, res) => {
   //mostrar requisição
