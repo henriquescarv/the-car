@@ -16,12 +16,18 @@ async function createReserve({ rsv }) {
       let rsvInitDate = new Date(reserve.initPeriod);
       let rsvEndDate = new Date(reserve.endPeriod);
       if (rsvInitDate <= initPeriod && rsvEndDate >= initPeriod) {
-        return [400, { message: "Já há uma reserva com esse carro nesse período!" }];
+        return [
+          400,
+          { message: "Já há uma reserva com esse carro nesse período!" },
+        ];
       }
     }
 
     let reserveCreate = await Reserve.create(rsv);
-    let cliente = await axios.get("http://localhost:3000/person/" + rsv.person_id);
+    let cliente = await axios.get(
+      "http://localhost:3000/person/" + rsv.person_id
+    );
+
     let car = await axios.get("http://localhost:3000/car/" + rsv.car_id);
 
     let payment = await axios.post("http://localhost:3000/payment/", {
@@ -30,7 +36,10 @@ async function createReserve({ rsv }) {
       reserva_id: reserveCreate.id,
     });
 
-    return [201, { message: "Reserva e pagamento cadastrados no sistema com sucesso!" }];
+    return [
+      201,
+      { message: "Reserva e pagamento cadastrados no sistema com sucesso!" },
+    ];
   } catch (error) {
     return [500, { error: error.message }];
   }
@@ -48,8 +57,8 @@ async function getAllReserves() {
 async function getReserveById({ id }) {
   try {
     const result = await Reserve.findById(id);
-    if (result === null) return [404, { message: "Nenhuma reserva encontrada por esse Id!" }];
-    console.log("res", new Date(result.initPeriod));
+    if (result === null)
+      return [404, { message: "Nenhuma reserva encontrada por esse Id!" }];
     return [200, result];
   } catch (error) {
     return [500, { error: error.message }];
@@ -112,7 +121,8 @@ async function updateReserveById({ id, newRsv }) {
 
 async function deleteReserveById({ id }) {
   const rsv = await Reserve.findOne({ id });
-  if (!rsv) return [422, { message: "Nenhuma reserva encontrada para esse ID!" }];
+  if (!rsv)
+    return [422, { message: "Nenhuma reserva encontrada para esse ID!" }];
   try {
     await rsv.deleteOne({ id });
     return [200, { message: "Reserva excluida do sistema!" }];

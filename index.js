@@ -50,3 +50,6 @@ mongoose
     app.listen(3000);
   }) //pra caso a conexão dê certo
   .catch((err) => console.log(err)); // pra exibir mensagem de erro, em caso de erro
+
+
+  mongodb+srv://backend_ine:M1SDHitSMaW0obNi@cluster0.sepu260.mongodb.net/?retryWrites=true&w=majority

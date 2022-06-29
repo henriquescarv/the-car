@@ -31,10 +31,15 @@ async function getLockById({ id }) {
 
 async function unlockByReserveId({ reserveId }) {
   try {
-    reserveActive = await axios.get("http://localhost:3000/reserve/" + reserveId + "/active");
+    reserveActive = await axios.get(
+      "http://localhost:3000/reserve/" + reserveId + "/active"
+    );
 
     if (reserveActive.status === 200) {
-      const result = await Lock.updateOne({ reserva_id: reserveId }, { trava: false });
+      const result = await Lock.updateOne(
+        { reserva_id: reserveId },
+        { trava: true }
+      );
       if (result.matchedCount === 0) {
         return [422, { message: "Nenhuma trava encontrada com esse ID!" }];
       }
